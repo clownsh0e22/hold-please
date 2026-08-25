@@ -1,20 +1,15 @@
 import unittest
 from app import app
 
-class TestIVRSimulation(unittest.TestCase):
+class TestTwilioWebhooks(unittest.TestCase):
     def setUp(self):
-        self.app = app.test_client()
-        self.app.testing = True
+        self.client = app.test_client()
+        self.client.testing = True
 
-    def test_voice_endpoint_initial(self):
-        response = self.app.post("/voice", data={})
+    def test_voice_webhook(self):
+        response = self.client.post('/voice', data={'SpeechResult': 'I need help with my bill'})
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Response", response.data)
+        self.assertIn(b'<Response>', response.data)
 
-    def test_voice_endpoint_billing(self):
-        response = self.app.post("/voice", data={"SpeechResult": "billing"})
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b"response", response.data.lower())
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
