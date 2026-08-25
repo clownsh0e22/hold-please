@@ -1,27 +1,24 @@
 from flask import Flask, request
-from twilio.twiml.voice_response import VoiceResponse
+from twilio.twiml.voice_response import VoiceResponse, Gather
 from navigator import PhoneTreeNavigator
-from fx_agent import FXAgent
 
 app = Flask(__name__)
 navigator = PhoneTreeNavigator()
-fx_agent = FXAgent()
 
-@app.route("/voice", methods=['POST'])
+@app.route("/voice", methods=['GET', 'POST'])
 def voice():
-    response = VoiceResponse()
-    speech_input = request.values.get('SpeechResult', '')
-    
-    if not speech_input:
-        response.say("Welcome to the hold bot agent. Initializing interactive voice response system.")
-        response.pause(length=2)
-        response.say("Navigating menu options.")
-    else:
-        digit = navigator.transition(speech_input)
-        response.play(digits=digit)
-        response.say(f"Pressed digit {digit} based on navigation state.")
+    resp = VoiceResponse()
+    speech_result = request.values.get('SpeechResult', '')
 
-    return str(response)
+    if speech_result:
+        digit = navigator.transition(speech_result)
+        resp.play(digits=digit)
 
-if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    gather = Gather(input='speech', action='/voice', method='POST', timeout=3)
+    gather.say("Please state the menu option or speak to navigate.")
+    resp.append(gather)
+
+    return str(resp)
+
+if __name__ == '__main__':
+    app.run(port=5000)
