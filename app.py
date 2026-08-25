@@ -1,5 +1,9 @@
+import os
 from flask import Flask, request
 from twilio.twiml.voice_response import VoiceResponse
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -12,4 +16,4 @@ def voice():
     return str(response)
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    app.run(port=5000, debug=True)
