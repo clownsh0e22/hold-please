@@ -60,50 +60,7 @@
 
 ### App Store Submission & Review
 - Submit the application for Apple review with complete justification disclosures for background telephony, call management, and notification permissions.
-# Production Roadmap: Hold Bot Telephony App
 
-## Backend Infrastructure & Logic
-
-### Real-Time Acoustic Hold-Detection
-- Transition from simple DTMF/speech triggers to a live audio-stream pipeline (e.g., WebSockets or Twilio Media Streams).
-- Integrate an audio analysis model/pipeline to reliably differentiate background hold music from a live human voice returning to the call.
-
-### Multi-Tenancy & Authentication
-- Implement user authentication (OAuth 2.0 / JWT).
-- Set up multi-tenant database management (PostgreSQL or MongoDB) to handle concurrent calls, logs, and user data securely.
-
-### Production Cloud Hosting
-- Migrate off local Mac environment and temporary Cloudflare tunnels.
-- Deploy backend to cloud infrastructure (AWS, GCP, or Render) with persistent domain endpoints, auto-scaling, and secure secret management.
-
----
-
-## Mobile App Development & Integrations
-
-### Mobile Frontend (iOS/Android)
-- Design and build user interfaces for authentication, contact selection, triggering calls, and live call state monitoring ("Dialing...", "On Hold...", "Human Detected!").
-
-### Push Notification Engine
-- Integrate Apple Push Notification service (APNs) and Firebase Cloud Messaging (FCM).
-- Trigger immediate high-priority alerts to the user's device when a live human is detected on the line.
-
-### Native VoIP / Call Handoff
-- Implement iOS CallKit and Android Telecom framework integrations.
-- Ensure seamless bridging/handoff of the active call back to the user's native phone interface once off hold.
-
----
-
-## App Store Deployment & Compliance
-
-### Mobile Application Build
-- Package the UI (built via Swift, React Native, or Flutter) and connect it to your backend REST APIs and WebSockets.
-
-### Legal & Regulatory Compliance
-- Draft clear Terms of Service and Privacy Policies covering telephony data, audio handling, and call recording regulations.
-- Enroll in the Apple Developer Program ($99/year).
-
-### App Store Submission & Review
-- Submit the application for Apple review with complete justification disclosures for background telephony, call management, and notification permissions.
 # Hold Bot Agent - Project State
 
 ## Environment & Tech Stack
@@ -121,11 +78,10 @@
 - Simulated speech input payload (`SpeechResult=customer service`) via `curl` and confirmed valid `<Play digits="0" />` response.
 - Shut down running `cloudflared` background process (PID 11153 stopped cleanly).
 - Updated `.gitignore` to ignore `tunnel.log`.
-- Documented configuration in `README.md` and pushed all changes to GitHub main branch.
+- Documented configuration in `DOCUMENTATION.md` and pushed all changes to GitHub main branch.
 
 ## Next Steps / Pending Tasks
 1. Complete Twilio account reactivation.
 2. Point active Twilio phone number webhook URL to the live tunnel endpoint (`/voice`).
 3. Relaunch `cloudflared` background tunnel or production server.
 4. Perform end-to-end live phone call test to verify speech gathering and keypress actions.
-- Created and pushed production roadmap (`README.md`, `README.txt`, and `roadmap.md`).
