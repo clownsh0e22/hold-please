@@ -10,6 +10,7 @@ class TestTwilioWebhooks(unittest.TestCase):
         response = self.client.post('/voice', data={'SpeechResult': 'I need help with my bill'})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<Response>', response.data)
+        self.assertIn(b'<Play digits=', response.data)
 
 if __name__ == '__main__':
     unittest.main()
