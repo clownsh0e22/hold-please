@@ -1,9 +1,11 @@
 from flask import Flask, request
 from twilio.twiml.voice_response import VoiceResponse
 from navigator import PhoneTreeNavigator
+from fx_agent import FXAgent
 
 app = Flask(__name__)
 navigator = PhoneTreeNavigator()
+fx_agent = FXAgent()
 
 @app.route("/voice", methods=['POST'])
 def voice():
