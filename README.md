@@ -1,32 +1,17 @@
-# Hold Please (Hold Bot Agent)
+# Local Webhook Setup
 
-A Flask-based Twilio voice bot integration designed to intelligently navigate interactive voice response (IVR) phone trees using speech-to-intent mapping and automated state machines.
+## Architecture
+- Flask Application running locally on http://127.0.0.1:5000
+- Cloudflare Tunnel routing public HTTPS traffic to local port 5000
 
-## Features
-- **Twilio Voice Webhook Integration:** Handles incoming voice requests and responds with dynamic TwiML instructions.
-- **State Machine Navigation:** Maps user speech input (e.g., password reset, billing inquiries) to the correct downstream IVR navigation paths.
-- **Local Simulation Tools:** Includes testing utilities to simulate Twilio webhooks locally.
+## Active Tunnel Specs
+- Transport Protocol: HTTP/2 (Fallback applied for UDP/QUIC port 7844 blocking)
+- Process Execution: Background logger (`tunnel.log`)
+- Public Endpoint: https://occupational-treasure-aka-boxed.trycloudflare.com
+- Twilio Webhook Target: https://occupational-treasure-aka-boxed.trycloudflare.com/voice
 
-## Setup & Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/clownsh0e22/hold-please.git
-   cd hold-please
-   ```
-
-2. Create and activate a virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Run the application:
-   ```bash
-   python app.py
-   ```
+## Status & Verification
+- Connectivity test returned HTTP/2 200 OK via `curl -I`.
+- Initial POST simulation to `/voice` returned valid `<Gather>` TwiML XML.
+- Speech payload simulation (`SpeechResult=customer service`) returned valid `<Play digits="0" />` TwiML XML.
+- Ready for Twilio console integration once account reactivation completes.
